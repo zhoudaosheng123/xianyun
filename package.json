@@ -11,14 +11,18 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "element-ui": "^2.4.11",
     "@nuxtjs/axios": "^5.3.6",
-    "nuxt": "^2.0.0"
+    "element-ui": "^2.4.11",
+    "less": "^3.9.0",
+    "moment": "^2.24.0",
+    "nuxt": "^2.0.0",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "eslint-config-prettier": "^4.1.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "prettier": "^1.16.4",
-    "nodemon": "^1.18.9"
+    "less-loader": "^5.0.0",
+    "nodemon": "^1.18.9",
+    "prettier": "^1.16.4"
   }
 }
