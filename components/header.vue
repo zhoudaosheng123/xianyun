@@ -15,16 +15,7 @@
         <nuxt-link to="/air">国内机票</nuxt-link>
       </el-row>
 
-      <!-- <el-dropdown>
-          <span class="el-dropdown-link">
-            <i class="el-icon-bell">消息</i>
-            <i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>消息</el-dropdown-item>
-            
-          </el-dropdown-menu>
-      </el-dropdown>-->
+     
       <div v-if="!$store.state.user.userInfo.token">
         <nuxt-link to="/user">登录/注册</nuxt-link>
       </div>

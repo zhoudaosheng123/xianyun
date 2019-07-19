@@ -72,27 +72,34 @@
         <span class="iconfont iconbaozheng">
           <i>出行保证</i>
         </span>
-     <i>|</i>
+        <i>|</i>
         <span class="iconfont icondianhua">
           <i>7x24小时出行保证</i>
         </span>
       </el-row>
     </div>
-  <div class="last">
+    <div class="last">
+      <h3>
+        <span class="iconfont icontejiajipiao"></span>
+        <i>特惠机票</i>
+      </h3>
+    </div>
 
-    <h3><span class="iconfont icontejiajipiao"></span><i>特惠机票</i></h3>
-
-    <div class="last_pic">
-
-      <el-row type="flex"> 
-        <div>
-        
-       
-        </div>
+    <div class="cp">
+      <el-row type="flex" class="flytacit" justify="space-between">
+        <el-col class="flywhere" v-for="(item,index) in sales" :key="index">
+          <nuxt-link
+            :to="`/air/flights?departCity=${item.departCity}&departCode=${item.departCode}&destCity=${item.destCity}&destCode=${item.destCode}&departDate=${item.departDate}`"
+          >
+            <img :src="item.cover" alt />
+            <el-row class="flymuch" type="flex" justify="space-between">
+              <span>{{item.departCity}}-{{item.destCity}}</span>
+              <span>{{item.price}}</span>
+            </el-row>
+          </nuxt-link>
+        </el-col>
       </el-row>
     </div>
-  </div>
-
   </div>
 </template>
 <script>
@@ -101,6 +108,9 @@ export default {
   data() {
     return {
       current: 0,
+
+      sales: [],
+
       tabs: [
         { icon: 'iconfont icondancheng', name: '单程' },
         { icon: 'iconfont iconshuangxiang', name: '往返' }
@@ -224,10 +234,32 @@ export default {
 
         //$router跳转时,path:'路径',后面带数据的参数是 query:this.form
         //   name:'名称'跳转,后面带数据用  params:this.form
-        this.$router.push({ path: '/air/123', query: this.form })
-        // query = this.form
+        if (valid) {
+          this.$router.push({ path: '/air/flights', query: this.form })
+          // query = this.form
+        }
       })
+
+      //把搜索的数据存储到本地
+      //  先建立一个JSON格式的数组,并且拿出这个数组
+      const airs = JSON.parse(localStorage.getItem('airs')) || []
+      airs.push(this.form)
+      localStorage.setItem('airs', JSON.stringify(airs))
+
+      // .push(this.form)
+      //  把搜索的输出存储到这个数组中
+      // airs.push(this.form)
+      //  把新生成的数组保存起来
+      // localStorage.setItem('airs', JSON.stringify(airs))
     }
+  },
+  mounted() {
+    this.$axios({
+      url: '/airs/sale'
+    }).then(res => {
+      console.log(res)
+      this.sales = res.data.data
+    })
   }
 }
 </script>
@@ -311,22 +343,46 @@ export default {
   }
 
   .footer {
-    margin-top:10px;
+    margin-top: 10px;
     border: 1px solid #ccc;
     padding: 20px 0px;
 
-    span{
-      color:#409eff;
-      i{
-        color:#333;
+    span {
+      color: #409eff;
+      i {
+        color: #333;
       }
     }
   }
-  .last{
-    height:50px;
+  .last {
+    height: 50px;
     line-height: 50px;
-    h3{
+    h3 {
       color: #409eff;
+    }
+  }
+  .cp {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 30px;
+    .flywhere {
+      width: 225px;
+      height: 140px;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .flymuch {
+        position: absolute;
+        color: #fff;
+        width: 225px;
+        background: rgba(0, 0, 0, 0.5);
+        bottom: 0;
+        left: 0;
+      }
     }
   }
 }
